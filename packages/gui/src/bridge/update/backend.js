@@ -17,13 +17,15 @@ const isLinux = process.platform === 'linux'
 const curVersion = pkg.version
 const isCurrentPreRelease = curVersion.includes('-')
 
+const SEMVER_PATTERN = /^v?(\d+(?:\.\d+)+(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?)$/
+
 function extractVersion (versionData) {
   const candidates = [versionData.name, versionData.tag_name]
   for (const candidate of candidates) {
     if (!candidate) {
       continue
     }
-    const matched = candidate.match(/^v?(\d+(?:\.\d+)+(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?)$/)
+    const matched = candidate.match(SEMVER_PATTERN)
     if (matched) {
       return matched[1]
     }
